@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <script src="src/main.js"></script>
+  </head>
+  <body>
+    <script>
+      const body = document.body;
+
+      const input = [
+        {
+          "name":"main.go",
+          "absolute_path":"/mnt/project/main.go",
+          "type":"file",
+          "children":null
+        },
+        {
+          "name":"Gopkg.toml",
+          "absolute_path":"/mnt/project/Gopkg.toml",
+          "type":"file",
+          "children":null
+        },
+        {
+          "name":"Gopkg.lock",
+          "absolute_path":"/mnt/project/Gopkg.lock",
+          "type":"file",
+          "children":null
+        },
+        {
+          "name":"vendor",
+          "absolute_path":"/mnt/project/vendor",
+          "type":"directory",
+          "children":null
+        },
+        {
+          "name":".gitignore",
+          "absolute_path":"/mnt/project/.gitignore",
+          "type":"file",
+          "children":null
+        },
+        {
+          "name": ".git",
+          "absolute_path": "/mnt/project/.git",
+          "type":"directory",
+          "children":null
+        }
+      ];
+      renderInput(input, body);
+    </script>
+  </body>
+</html>
