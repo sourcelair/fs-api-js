@@ -7,6 +7,7 @@ function iterator(array) {
   });
   return ulList;
 }
+
 function renderInput(input, container) {
   const dirItem = input.filter(inputEl => inputEl.type === "directory"),
     fileItem = input.filter(inputEl => inputEl.type === "file");
