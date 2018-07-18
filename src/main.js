@@ -1,31 +1,19 @@
-function strComp (str1, str2) {
-  if (str1.localeCompare(str2) === -1 || str1.localeCompare(str2) === 0)
-    return true;
-}
-function checkAndPush(inputElement, liArray) {
-  const tempLiItem = document.createElement("li");
-  tempLiItem.textContent = inputElement.name;
-  for (j=0; j<liArray.length; j++)
-    if (strComp(inputElement.name.toUpperCase(), liArray[j].textContent.toUpperCase()))
-      break;
-  return j;
+function iterator(array) {
+  const ulList = document.createElement("ul");
+  array.map(a => {
+    const liItem = document.createElement("li");
+    liItem.textContent = a.name;
+    ulList.appendChild(liItem);
+  });
+  return ulList;
 }
 function renderInput(input, container){
-  const dirItem = [], fileItem = [];
-  const dirList = document.createElement("ul"), fileList = document.createElement("ul");
-  var i, j;
-  for (i=0; i<input.length; i++) {
-    const tempItem = document.createElement("li");
-    tempItem.textContent = input[i].name;
-    if (input[i].type === "directory")
-      dirItem.splice(checkAndPush(input[i], dirItem), 0, tempItem);
-    else 
-      fileItem.splice(checkAndPush(input[i], fileItem), 0, tempItem);
-  }
-  for (i=0; i<dirItem.length; i++)
-    dirList.appendChild(dirItem[i]);
-  for (i=0; i<fileItem.length; i++) 
-    fileList.appendChild(fileItem[i]);
+  const dirItem = input.filter(inputEl => inputEl.type==='directory'), fileItem = input.filter(inputEl => inputEl.type==='file');
+  dirItem.sort(function(a,b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} ); 
+  fileItem.sort(function(a,b) {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);} );
+  
+  dirList = iterator(dirItem);
+  fileList = iterator(fileItem);
   container.appendChild(dirList);
   container.appendChild(fileList);
 }
