@@ -1,11 +1,11 @@
 function convertItemsToUnorderedList(listItems) {
-  const ulList = document.createElement("ul");
-  listItems.map(a => {
-    const liItem = document.createElement("li");
-    liItem.textContent = a.name;
-    ulList.appendChild(liItem);
+  const ulElement = document.createElement("ul");
+  listItems.forEach(item => {
+    const liElement = document.createElement("li");
+    liElement.textContent = item.name;
+    ulElement.appendChild(liElement);
   });
-  return ulList;
+  return ulElement;
 }
 
 function alphabeticCompare(a, b) {
@@ -13,11 +13,11 @@ function alphabeticCompare(a, b) {
 }
 
 function renderInput(input, container) {
-  const dirItem = input.filter(inputEl => inputEl.type === "directory"),
-        fileItem = input.filter(inputEl => inputEl.type === "file");
-  dirItem.sort(alphabeticCompare);
-  fileItem.sort(alphabeticCompare);
-  const listItems = dirItem.concat(fileItem);
-  ulList = convertItemsToUnorderedList(listItems);
-  container.appendChild(ulList);
+  const dirItems = input.filter(inputEl => inputEl.type === "directory"),
+        fileItems = input.filter(inputEl => inputEl.type === "file");
+  dirItems.sort(alphabeticCompare);
+  fileItems.sort(alphabeticCompare);
+  const listItems = dirItems.concat(fileItems);
+  ulElement = convertItemsToUnorderedList(listItems);
+  container.appendChild(ulElement);
 }
