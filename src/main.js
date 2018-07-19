@@ -9,7 +9,7 @@ function convertItemsToUnorderedList(listItems) {
 }
 
 function alphabeticCompare(a, b) {
-  return a.name > b.name ? 1 : b.name > a.name ? -1 : 0;
+  return a.name.toUpperCase() > b.name.toUpperCase() ? 1 : b.name.toUpperCase() > a.name.toUpperCase() ? -1 : 0;
 }
 
 function renderInput(input, container) {
@@ -21,3 +21,5 @@ function renderInput(input, container) {
   ulElement = convertItemsToUnorderedList(listItems);
   container.appendChild(ulElement);
 }
+
+module.exports.render = renderInput;
