@@ -9,12 +9,14 @@ function convertItemsToUnorderedList(listItems) {
 }
 
 function alphabeticCompare(a, b) {
-  return a.name.toUpperCase() > b.name.toUpperCase() ? 1 : b.name.toUpperCase() > a.name.toUpperCase() ? -1 : 0;
+  const firstName = a.name.toUpperCase();
+  const secondName = b.name.toUpperCase();
+  return firstName > secondName ? 1 : secondName > firstName ? -1 : 0;
 }
 
 function renderInput(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
-        fileItems = input.filter(inputEl => inputEl.type === "file");
+    fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
