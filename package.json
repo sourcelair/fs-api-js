@@ -1,0 +1,16 @@
+{
+  "name": "fs-api",
+  "version": "0.1.0",
+  "main": "src/main.js",
+  "repository": "https://github.com/sourcelair/fs-api-js",
+  "author": "SourceLair Private Company",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^23.4.1",
+    "prettier": "^1.13.7"
+  },
+  "scripts": {
+    "test": "jest",
+    "format": "prettier \"src/*.js\" --write"
+  }
+}
