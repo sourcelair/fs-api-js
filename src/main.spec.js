@@ -67,8 +67,9 @@ test("Checks HTMLElements", () => {
   expect(ul.children[3].children[0].textContent).toBe("SFile.sth");
   expect(ul.children[4].children[0].textContent).toBe("test.go");
   expect(ul.children[5].children[0].textContent).toBe("Troll.go");
-
-  expect(ul.classList.contains('fs-api-tree')).toBe(true);
+  for (i=0; i<ul.length; i++){
+    expect(ul[i].classList.contains('fs-api-tree')).toBe(true);
+  }
   expect(ul.children[0].classList.contains('fs-api-directory')).toBe(true);
   expect(ul.children[1].classList.contains('fs-api-directory')).toBe(true);
   expect(ul.children[2].classList.contains('fs-api-file')).toBe(true);
