@@ -2,7 +2,12 @@ function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
     const liElement = document.createElement("li");
-    liElement.textContent = item.name;
+    const spanElement = document.createElement("span");
+    spanElement.textContent = item.name;
+    liElement.appendChild(spanElement);
+    if (item.children) {
+      renderInput(item.children, liElement);
+    }
     ulElement.appendChild(liElement);
   });
   return ulElement;
