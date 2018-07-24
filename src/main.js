@@ -3,10 +3,9 @@ function convertItemsToUnorderedList(listItems) {
   listItems.forEach(item => {
     const liElement = document.createElement("li");
     liElement.classList.add("fs-api-entry");
-    if (item.type === "file"){
+    if (item.type === "file") {
       liElement.classList.add("fs-api-file");
-    }
-    else {
+    } else {
       liElement.classList.add("fs-api-directory");
     }
     const spanElement = document.createElement("span");
@@ -29,7 +28,7 @@ function alphabeticCompare(a, b) {
 
 function renderInput(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
-        fileItems = input.filter(inputEl => inputEl.type === "file");
+    fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
