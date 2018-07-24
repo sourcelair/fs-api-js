@@ -11,26 +11,8 @@
 
       const input = [
         {
-          "name":"main.go",
-          "absolute_path":"/mnt/project/main.go",
-          "type":"file",
-          "children":null
-        },
-        {
-          "name":"Gopkg.toml",
-          "absolute_path":"/mnt/project/Gopkg.toml",
-          "type":"file",
-          "children":null
-        },
-        {
-          "name":"Gopkg.lock",
-          "absolute_path":"/mnt/project/Gopkg.lock",
-          "type":"file",
-          "children":null
-        },
-        {
-          "name":"vendor",
-          "absolute_path":"/mnt/project/vendor",
+          "name":".git",
+          "absolute_path":"/mnt/project/.git",
           "type":"directory",
           "children":null
         },
@@ -41,10 +23,41 @@
           "children":null
         },
         {
-          "name": ".git",
-          "absolute_path": "/mnt/project/.git",
-          "type":"directory",
+          "name":"Gopkg.lock",
+          "absolute_path":"/mnt/project/Gopkg.lock",
+          "type":"file",
           "children":null
+        },
+        {
+          "name":"Gopkg.toml",
+          "absolute_path":"/mnt/project/Gopkg.toml",
+          "type":"file",
+          "children":null
+        },
+        {
+          "name":"main.go",
+          "absolute_path":"/mnt/project/main.go",
+          "type":"file",
+          "children":null
+        },
+        {
+          "name":"vendor",
+          "absolute_path":"/mnt/project/vendor",
+          "type":"directory",
+          "children":[
+            {
+              "name":"package.json",
+              "absolute_path":"/mnt/project/vendor/package.json",
+              "type":"file",
+              "children":null
+            },
+            {
+              "name":"yarn.lock",
+              "absolute_path":"/mnt/project/vendor/yarn.lock",
+              "type":"file",
+              "children":null
+            }
+          ]
         }
       ];
       fsApi.render(input, body);
