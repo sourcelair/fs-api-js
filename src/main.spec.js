@@ -1,5 +1,4 @@
 const fsapi = require("./main");
-var i;
 
 test("Checks HTMLElements", () => {
   const input = [
@@ -56,31 +55,37 @@ test("Checks HTMLElements", () => {
   const container = document.createElement("div");
   fsapi.render(input, container);
 
-  const ul = container.querySelector("ul");
+  const trees = container.querySelectorAll("ul");
 
-  for (const child of ul.children) {
+  for (const child of trees[0].children) {
     expect(child).toBeInstanceOf(HTMLLIElement);
   }
-  expect(ul.children[0].children[0].textContent).toBe("Dir");
-  expect(ul.children[1].children[0].textContent).toBe("FinalDir");
-  expect(ul.children[2].children[0].textContent).toBe("AnotherFile.html");
-  expect(ul.children[3].children[0].textContent).toBe("SFile.sth");
-  expect(ul.children[4].children[0].textContent).toBe("test.go");
-  expect(ul.children[5].children[0].textContent).toBe("Troll.go");
-  for (i = 0; i < ul.length; i++) {
-    expect(ul[i].classList.contains("fs-api-tree")).toBe(true);
+  expect(trees[0].children[0].children[0].textContent).toBe("Dir");
+  expect(trees[0].children[1].children[0].textContent).toBe("FinalDir");
+  expect(trees[0].children[2].children[0].textContent).toBe("AnotherFile.html");
+  expect(trees[0].children[3].children[0].textContent).toBe("SFile.sth");
+  expect(trees[0].children[4].children[0].textContent).toBe("test.go");
+  expect(trees[0].children[5].children[0].textContent).toBe("Troll.go");
+  for (const ulElement of trees) {
+    expect(ulElement.classList.contains("fs-api-tree")).toBe(true);
   }
-  expect(ul.children[0].classList.contains("fs-api-directory")).toBe(true);
-  expect(ul.children[1].classList.contains("fs-api-directory")).toBe(true);
-  expect(ul.children[2].classList.contains("fs-api-file")).toBe(true);
-  expect(ul.children[3].classList.contains("fs-api-file")).toBe(true);
-  expect(ul.children[4].classList.contains("fs-api-file")).toBe(true);
-  expect(ul.children[5].classList.contains("fs-api-file")).toBe(true);
+  expect(trees[0].children[0].classList.contains("fs-api-directory")).toBe(
+    true
+  );
+  expect(trees[0].children[1].classList.contains("fs-api-directory")).toBe(
+    true
+  );
+  expect(trees[0].children[2].classList.contains("fs-api-file")).toBe(true);
+  expect(trees[0].children[3].classList.contains("fs-api-file")).toBe(true);
+  expect(trees[0].children[4].classList.contains("fs-api-file")).toBe(true);
+  expect(trees[0].children[5].classList.contains("fs-api-file")).toBe(true);
 
-  for (i = 0; i < 6; i++) {
-    expect(
-      ul.children[i].children[0].classList.contains("fs-api-entry-name")
-    ).toBe(true);
-    expect(ul.children[i].classList.contains("fs-api-entry")).toBe(true);
+  for (const li of trees) {
+    for (const child of li.children) {
+      expect(child.children[0].classList.contains("fs-api-entry-name")).toBe(
+        true
+      );
+      expect(child.classList.contains("fs-api-entry")).toBe(true);
+    }
   }
 });

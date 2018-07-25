@@ -3,15 +3,11 @@ function convertItemsToUnorderedList(listItems) {
   listItems.forEach(item => {
     const liElement = document.createElement("li");
     liElement.classList.add("fs-api-entry");
-    if (item.type === "file") {
-      liElement.classList.add("fs-api-file");
-    } else {
-      liElement.classList.add("fs-api-directory");
-    }
-    const spanElement = document.createElement("span");
-    spanElement.textContent = item.name;
-    spanElement.classList.add("fs-api-entry-name");
-    liElement.appendChild(spanElement);
+    liElement.classList.add(`fs-api-${item.type}`);
+    const nameElement = document.createElement("span");
+    nameElement.textContent = item.name;
+    nameElement.classList.add("fs-api-entry-name");
+    liElement.appendChild(nameElement);
     if (item.children) {
       renderInput(item.children, liElement);
     }
