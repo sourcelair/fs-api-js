@@ -38,14 +38,14 @@ test("Checks HTMLElements", () => {
       type: "directory",
       children: [
         {
-          name: "package.json",
-          absolute_path: "/mnt/project/vendor/package.json",
+          name: "yarn.lock",
+          absolute_path: "/mnt/project/vendor/yarn.lock",
           type: "file",
           children: null
         },
         {
-          name: "yarn.lock",
-          absolute_path: "/mnt/project/vendor/yarn.lock",
+          name: "package.json",
+          absolute_path: "/mnt/project/vendor/package.json",
           type: "file",
           children: null
         }
@@ -66,6 +66,16 @@ test("Checks HTMLElements", () => {
   expect(trees[0].children[3].children[0].textContent).toBe("SFile.sth");
   expect(trees[0].children[4].children[0].textContent).toBe("test.go");
   expect(trees[0].children[5].children[0].textContent).toBe("Troll.go");
+
+  expect(
+    trees[0].children[1].children[1].children[0].children[0].textContent
+  ).toBe("package.json");
+  expect(
+    trees[0].children[1].children[1].children[1].children[0].textContent
+  ).toBe("yarn.lock");
+
+  //expect(trees[0].children[1].children[0].children[1].textContent).toBe("yarn.lock");
+
   for (const ulElement of trees) {
     expect(ulElement.classList.contains("fs-api-tree")).toBe(true);
   }
