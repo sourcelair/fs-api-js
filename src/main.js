@@ -45,3 +45,4 @@ function renderFile(file, container) {
     });
 }
 module.exports.render = renderFile;
+module.exports.renderInput = renderInput;
