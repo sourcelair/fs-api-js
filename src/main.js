@@ -2,8 +2,7 @@ function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
     const liElement = document.createElement("li");
-    liElement.classList.add("fs-api-entry");
-    liElement.classList.add(`fs-api-${item.type}`);
+    liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
     const nameElement = document.createElement("span");
     nameElement.textContent = item.name;
     nameElement.classList.add("fs-api-entry-name");
