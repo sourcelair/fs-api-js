@@ -2,7 +2,14 @@ function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
     const liElement = document.createElement("li");
-    liElement.textContent = item.name;
+    liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
+    const nameElement = document.createElement("span");
+    nameElement.textContent = item.name;
+    nameElement.classList.add("fs-api-entry-name");
+    liElement.appendChild(nameElement);
+    if (item.children) {
+      renderInput(item.children, liElement);
+    }
     ulElement.appendChild(liElement);
   });
   return ulElement;
@@ -21,6 +28,7 @@ function renderInput(input, container) {
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
   ulElement = convertItemsToUnorderedList(listItems);
+  ulElement.classList.add("fs-api-tree");
   container.appendChild(ulElement);
 }
 
