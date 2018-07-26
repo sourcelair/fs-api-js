@@ -56,7 +56,7 @@ test("Checks HTMLElements", () => {
   fsapi.render(input, container);
 
   const trees = container.querySelectorAll("ul");
-  rootTree = trees[0];
+  const rootTree = trees[0];
   for (const child of rootTree.children) {
     expect(child).toBeInstanceOf(HTMLLIElement);
   }
