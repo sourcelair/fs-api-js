@@ -66,12 +66,8 @@ test("Checks HTMLElements", () => {
   expect(rootTree.children[3].children[0].textContent).toBe("SFile.sth");
   expect(rootTree.children[4].children[0].textContent).toBe("test.go");
   expect(rootTree.children[5].children[0].textContent).toBe("Troll.go");
-  expect(trees[1].children[0].children[0].textContent).toBe(
-    "package.json"
-  );
-  expect(
-    trees[1].children[1].children[0].textContent
-  ).toBe("yarn.lock");
+  expect(trees[1].children[0].children[0].textContent).toBe("package.json");
+  expect(trees[1].children[1].children[0].textContent).toBe("yarn.lock");
 
   for (const ulElement of trees) {
     expect(ulElement.classList.contains("fs-api-tree")).toBe(true);
