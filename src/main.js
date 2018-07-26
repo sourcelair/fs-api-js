@@ -32,4 +32,16 @@ function renderInput(input, container) {
   container.appendChild(ulElement);
 }
 
-module.exports.render = renderInput;
+function renderFile(file, container) {
+  const url = file;
+  fetch(url)
+    .then(resp => resp.json())
+    .then(function(data) {
+      const input = data;
+      renderInput(input, container);
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+}
+module.exports.render = renderFile;
