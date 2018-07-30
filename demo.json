@@ -35,16 +35,23 @@
     "type":"directory",
     "children":[
       {
-        "name":"package.json",
-        "absolute_path":"/mnt/project/vendor/package.json",
-        "type":"file",
-        "children":null
-      },
-      {
-        "name":"yarn.lock",
-        "absolute_path":"/mnt/project/vendor/yarn.lock",
-        "type":"file",
-        "children":null
+        "name":"vendorSubDirectory",
+        "absolute_path":"/mnt/project/vendor/vendorSubDirectory",
+        "type":"directory",
+        "children":[
+          {
+            "name":"package.json",
+            "absolute_path":"/mnt/project/vendor/vendorSubDirectory/package.json",
+            "type":"file",
+            "children":null
+          },
+          {
+            "name":"yarn.lock",
+            "absolute_path":"/mnt/project/vendor/vendorSubDirectory/yarn.lock",
+            "type":"file",
+            "children":null
+          }
+        ]
       }
     ]
   }

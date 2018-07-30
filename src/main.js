@@ -32,8 +32,7 @@ function renderInput(input, container) {
   container.appendChild(ulElement);
 }
 
-function renderFile(file, container) {
-  const url = file;
+function renderFile(url, container) {
   fetch(url)
     .then(resp => resp.json())
     .then(function(data) {
