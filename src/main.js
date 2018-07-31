@@ -55,5 +55,5 @@ function renderUrl(url, container) {
       console.log(error);
     });
 }
-module.exports.render = renderUrl;
+module.exports.renderUrl = renderUrl;
 module.exports.renderInput = renderInput;
