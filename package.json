@@ -15,9 +15,9 @@
   },
   "scripts": {
     "test": "jest",
-    "format": "prettier src/*.js --write",
+    "format": "prettier {src,demo}/*.{js,css} --write",
     "watch": "watchify src/main.js --verbose --standalone fsApi -o dist/fsapi.js",
     "start": "browser-sync start --server --watch --files 'dist/*' 'index.html'  --port $PORT",
-    "lint": "prettier-check src/*.js"
+    "lint": "prettier-check {src,demo}/*.{js,css}"
   }
 }
