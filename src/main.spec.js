@@ -90,5 +90,20 @@ test("Checks HTMLElements", () => {
       );
       expect(child.classList.contains("fs-api-entry")).toBe(true);
     }
+    if (tree.children) {
+      if (tree.previousSibling) {
+        expect(
+          tree.parentNode.classList.contains("fs-api-directory-collapse")
+        ).toBe(false);
+        tree.previousSibling.click();
+        expect(
+          tree.parentNode.classList.contains("fs-api-directory-collapse")
+        ).toBe(true);
+        tree.previousSibling.click();
+        expect(
+          tree.parentNode.classList.contains("fs-api-directory-collapse")
+        ).toBe(false);
+      }
+    }
   }
 });

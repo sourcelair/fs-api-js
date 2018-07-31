@@ -20,10 +20,10 @@ function convertItemsToUnorderedList(listItems) {
   return ulElement;
 }
 function toggleDirectory(nameElement) {
-  if (nameElement.parentNode.classList.contains("fs-api-directory-hide")) {
-    nameElement.parentNode.classList.remove("fs-api-directory-hide");
+  if (nameElement.parentNode.classList.contains("fs-api-directory-collapse")) {
+    nameElement.parentNode.classList.remove("fs-api-directory-collapse");
   } else {
-    nameElement.parentNode.classList.add("fs-api-directory-hide");
+    nameElement.parentNode.classList.add("fs-api-directory-collapse");
   }
 }
 
