@@ -4,6 +4,11 @@ function convertItemsToUnorderedList(listItems) {
     const liElement = document.createElement("li");
     liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
     const nameElement = document.createElement("span");
+    if (item.children) {
+      nameElement.addEventListener("click", function() {
+        toggleDirectory(nameElement);
+      });
+    }
     nameElement.textContent = item.name;
     nameElement.classList.add("fs-api-entry-name");
     liElement.appendChild(nameElement);
@@ -14,6 +19,13 @@ function convertItemsToUnorderedList(listItems) {
   });
   return ulElement;
 }
+function toggleDirectory(nameElement) {
+  if (nameElement.parentNode.classList.contains("fs-api-directory-hide")) {
+    nameElement.parentNode.classList.remove("fs-api-directory-hide");
+  } else {
+    nameElement.parentNode.classList.add("fs-api-directory-hide");
+  }
+}
 
 function alphabeticCompare(a, b) {
   const firstName = a.name.toUpperCase();
@@ -23,7 +35,7 @@ function alphabeticCompare(a, b) {
 
 function renderInput(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
-    fileItems = input.filter(inputEl => inputEl.type === "file");
+        fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
@@ -32,16 +44,16 @@ function renderInput(input, container) {
   container.appendChild(ulElement);
 }
 
-function renderFile(url, container) {
+function renderUrl(url, container) {
   fetch(url)
     .then(resp => resp.json())
     .then(function(data) {
-      const input = data;
-      renderInput(input, container);
-    })
+    const input = data;
+    renderInput(input, container);
+  })
     .catch(function(error) {
-      console.log(error);
-    });
+    console.log(error);
+  });
 }
-module.exports.render = renderFile;
+module.exports.render = renderUrl;
 module.exports.renderInput = renderInput;
