@@ -35,7 +35,7 @@ function alphabeticCompare(a, b) {
 
 function renderInput(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
-        fileItems = input.filter(inputEl => inputEl.type === "file");
+    fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
@@ -48,12 +48,12 @@ function renderUrl(url, container) {
   fetch(url)
     .then(resp => resp.json())
     .then(function(data) {
-    const input = data;
-    renderInput(input, container);
-  })
+      const input = data;
+      renderInput(input, container);
+    })
     .catch(function(error) {
-    console.log(error);
-  });
+      console.log(error);
+    });
 }
 module.exports.render = renderUrl;
 module.exports.renderInput = renderInput;
