@@ -53,7 +53,7 @@ test("Checks HTMLElements", () => {
     }
   ];
   const container = document.createElement("div");
-  fsapi.render(input, container);
+  fsapi.renderInput(input, container);
 
   const trees = container.querySelectorAll("ul");
   const rootTree = trees[0];
