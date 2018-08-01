@@ -92,14 +92,19 @@ test("Checks HTMLElements", () => {
     }
     if (tree.children) {
       if (tree.previousSibling) {
+        //At first we expect from the li not to contain the "collapse" class, since its contents are diplayed.
         expect(
           tree.parentNode.classList.contains("fs-api-directory-collapse")
         ).toBe(false);
+        //We click the folder.
         tree.previousSibling.click();
+        //Now we expect that the list collapses
         expect(
           tree.parentNode.classList.contains("fs-api-directory-collapse")
         ).toBe(true);
+        //We click the folder.
         tree.previousSibling.click();
+        //Now we expect for the folders' contents to be displayed.
         expect(
           tree.parentNode.classList.contains("fs-api-directory-collapse")
         ).toBe(false);
