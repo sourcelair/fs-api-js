@@ -120,15 +120,35 @@ describe("Tests fetch call", () => {
   });
 
   it("mockResponse", () => {
-    fetch.mockResponseOnce(JSON.stringify({ data: "datatest" }));
+    fetch.mockResponseOnce(
+      JSON.stringify({
+        data: [
+          {
+            name: "main.go",
+            absolute_path: "/mnt/project/main.go",
+            type: "file",
+            children: null
+          }
+        ]
+      })
+    );
 
     //assert on the response
-    fetch("../demo/demo.json").then(res => {
-      expect(res.data).toEqual("datatest");
+    const container = document.createElement("div");
+
+    fsapi.renderUrl("/api/fs/", container).then(res => {
+      expect(res.data).toEqual([
+        {
+          name: "main.go",
+          absolute_path: "/mnt/project/main.go",
+          type: "file",
+          children: null
+        }
+      ]);
     });
 
     //assert on the times called and arguments given to fetch
     expect(fetch.mock.calls.length).toEqual(1);
-    expect(fetch.mock.calls[0][0]).toEqual("../demo/demo.json");
+    expect(fetch.mock.calls[0][0]).toEqual("/api/fs/");
   });
 });

@@ -45,7 +45,7 @@ function renderInput(input, container) {
 }
 
 function renderUrl(url, container) {
-  fetch(url)
+  return fetch(url)
     .then(resp => resp.json())
     .then(function(data) {
       const input = data;
