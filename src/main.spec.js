@@ -1,6 +1,7 @@
 const fsapi = require("./main");
+global.fetch = require("jest-fetch-mock");
 
-test("Checks HTMLElements", () => {
+test("Checks fs-api-js", () => {
   const input = [
     {
       name: "test.go",
@@ -111,4 +112,23 @@ test("Checks HTMLElements", () => {
       }
     }
   }
+});
+
+describe("Tests fetch call", () => {
+  beforeEach(() => {
+    fetch.resetMocks();
+  });
+
+  it("mockResponse", () => {
+    fetch.mockResponseOnce(JSON.stringify({ data: "datatest" }));
+
+    //assert on the response
+    fetch("../demo/demo.json").then(res => {
+      expect(res.data).toEqual("datatest");
+    });
+
+    //assert on the times called and arguments given to fetch
+    expect(fetch.mock.calls.length).toEqual(1);
+    expect(fetch.mock.calls[0][0]).toEqual("../demo/demo.json");
+  });
 });

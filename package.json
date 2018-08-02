@@ -9,6 +9,7 @@
     "browser-sync": "^2.24.5",
     "browserify": "^16.2.2",
     "jest": "^23.4.1",
+    "jest-fetch-mock": "^1.6.5",
     "prettier": "^1.13.7",
     "prettier-check": "^2.0.0",
     "watchify": "^3.11.0"
