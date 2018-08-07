@@ -113,8 +113,8 @@ test("Checks fs-api-js", () => {
   }
 });
 
-describe("Tests fetch call", () => {
-  it("mockResponse", async function() {
+describe("#renderUrl", () => {
+  it("Should call `fetch` with the appropriate argument and pass payload to `renderInput`", async function() {
     fetch.mockResponseOnce(
       JSON.stringify([
         {
