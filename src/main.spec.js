@@ -115,36 +115,26 @@ test("Checks fs-api-js", () => {
 
 describe("#renderUrl", () => {
   it("Should call `fetch` with the appropriate argument and pass payload to `renderInput`", async function() {
-    fetch.mockResponseOnce(
-      JSON.stringify([
-        {
-          name: "main.go",
-          absolute_path: "/mnt/project/main.go",
-          type: "file",
-          children: null
-        }
-      ])
-    );
+    const payload = [
+      {
+        name: "main.go",
+        absolute_path: "/mnt/project/main.go",
+        type: "file",
+        children: null
+      }
+    ];
+    const url = "/api/fs/";
+    fetch.mockResponseOnce(JSON.stringify(payload));
 
     const container = document.createElement("div");
 
     fsapi.renderInput = jest.fn();
 
-    await fsapi.renderUrl("/api/fs/", container);
+    await fsapi.renderUrl(url, container);
 
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(fetch).toHaveBeenCalledWith("/api/fs/");
+    expect(fetch).toHaveBeenCalledWith(url);
     expect(fsapi.renderInput).toHaveBeenCalledTimes(1);
-    expect(fsapi.renderInput).toHaveBeenCalledWith(
-      [
-        {
-          name: "main.go",
-          absolute_path: "/mnt/project/main.go",
-          type: "file",
-          children: null
-        }
-      ],
-      container
-    );
+    expect(fsapi.renderInput).toHaveBeenCalledWith(payload, container);
   });
 });
