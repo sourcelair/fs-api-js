@@ -20,5 +20,11 @@
     "watch": "watchify src/main.js --verbose --standalone fsApi -o dist/fsapi.js",
     "start": "browser-sync start --server --watch --files 'dist/*' 'index.html'  --port $PORT",
     "lint": "prettier-check {src,demo}/*.{js,css}"
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./src/setupJest.js"
+    ]
   }
 }

@@ -1,5 +1,4 @@
 const fsapi = require("./main");
-global.fetch = require("jest-fetch-mock");
 
 test("Checks fs-api-js", () => {
   const input = [
@@ -115,40 +114,37 @@ test("Checks fs-api-js", () => {
 });
 
 describe("Tests fetch call", () => {
-  beforeEach(() => {
-    fetch.resetMocks();
-  });
-
-  it("mockResponse", () => {
+  it("mockResponse", async function() {
     fetch.mockResponseOnce(
-      JSON.stringify({
-        data: [
-          {
-            name: "main.go",
-            absolute_path: "/mnt/project/main.go",
-            type: "file",
-            children: null
-          }
-        ]
-      })
-    );
-
-    //assert on the response
-    const container = document.createElement("div");
-
-    fsapi.renderUrl("/api/fs/", container).then(res => {
-      expect(res.data).toEqual([
+      JSON.stringify([
         {
           name: "main.go",
           absolute_path: "/mnt/project/main.go",
           type: "file",
           children: null
         }
-      ]);
-    });
+      ])
+    );
 
-    //assert on the times called and arguments given to fetch
-    expect(fetch.mock.calls.length).toEqual(1);
-    expect(fetch.mock.calls[0][0]).toEqual("/api/fs/");
+    const container = document.createElement("div");
+
+    fsapi.renderInput = jest.fn();
+
+    await fsapi.renderUrl("/api/fs/", container);
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith("/api/fs/");
+    expect(fsapi.renderInput).toHaveBeenCalledTimes(1);
+    expect(fsapi.renderInput).toHaveBeenCalledWith(
+      [
+        {
+          name: "main.go",
+          absolute_path: "/mnt/project/main.go",
+          type: "file",
+          children: null
+        }
+      ],
+      container
+    );
   });
 });

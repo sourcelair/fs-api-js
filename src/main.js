@@ -13,7 +13,7 @@ function convertItemsToUnorderedList(listItems) {
     nameElement.classList.add("fs-api-entry-name");
     liElement.appendChild(nameElement);
     if (item.children) {
-      renderInput(item.children, liElement);
+      module.exports.renderInput(item.children, liElement);
     }
     ulElement.appendChild(liElement);
   });
@@ -33,7 +33,7 @@ function alphabeticCompare(a, b) {
   return firstName > secondName ? 1 : secondName > firstName ? -1 : 0;
 }
 
-function renderInput(input, container) {
+module.exports.renderInput = function(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
     fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
@@ -42,18 +42,10 @@ function renderInput(input, container) {
   ulElement = convertItemsToUnorderedList(listItems);
   ulElement.classList.add("fs-api-tree");
   container.appendChild(ulElement);
-}
+};
 
-function renderUrl(url, container) {
-  return fetch(url)
-    .then(resp => resp.json())
-    .then(function(data) {
-      const input = data;
-      renderInput(input, container);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-}
-module.exports.renderUrl = renderUrl;
-module.exports.renderInput = renderInput;
+module.exports.renderUrl = async function(url, container) {
+  const response = await fetch(url);
+  const payload = await response.json();
+  module.exports.renderInput(payload, container);
+};
