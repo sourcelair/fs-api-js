@@ -9,15 +9,22 @@
     "browser-sync": "^2.24.5",
     "browserify": "^16.2.2",
     "jest": "^23.4.1",
+    "jest-fetch-mock": "^1.6.5",
     "prettier": "^1.13.7",
     "prettier-check": "^2.0.0",
     "watchify": "^3.11.0"
   },
   "scripts": {
     "test": "jest",
-    "format": "prettier src/*.js --write",
+    "format": "prettier {src,demo}/*.{js,css} --write",
     "watch": "watchify src/main.js --verbose --standalone fsApi -o dist/fsapi.js",
     "start": "browser-sync start --server --watch --files 'dist/*' 'index.html'  --port $PORT",
-    "lint": "prettier-check src/*.js"
+    "lint": "prettier-check {src,demo}/*.{js,css}"
+  },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./src/setupJest.js"
+    ]
   }
 }
