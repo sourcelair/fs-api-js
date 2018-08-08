@@ -60,14 +60,14 @@ test("Checks fs-api-js", () => {
   for (const child of rootTree.children) {
     expect(child).toBeInstanceOf(HTMLLIElement);
   }
-  expect(rootTree.children[0].children[0].textContent).toBe("Dir");
-  expect(rootTree.children[1].children[0].textContent).toBe("FinalDir");
-  expect(rootTree.children[2].children[0].textContent).toBe("AnotherFile.html");
-  expect(rootTree.children[3].children[0].textContent).toBe("SFile.sth");
-  expect(rootTree.children[4].children[0].textContent).toBe("test.go");
-  expect(rootTree.children[5].children[0].textContent).toBe("Troll.go");
-  expect(trees[1].children[0].children[0].textContent).toBe("package.json");
-  expect(trees[1].children[1].children[0].textContent).toBe("yarn.lock");
+  expect(rootTree.children[0].children[1].textContent).toBe("Dir");
+  expect(rootTree.children[1].children[1].textContent).toBe("FinalDir");
+  expect(rootTree.children[2].children[1].textContent).toBe("AnotherFile.html");
+  expect(rootTree.children[3].children[1].textContent).toBe("SFile.sth");
+  expect(rootTree.children[4].children[1].textContent).toBe("test.go");
+  expect(rootTree.children[5].children[1].textContent).toBe("Troll.go");
+  expect(trees[1].children[0].children[1].textContent).toBe("package.json");
+  expect(trees[1].children[1].children[1].textContent).toBe("yarn.lock");
 
   for (const ulElement of trees) {
     expect(ulElement.classList.contains("fs-api-tree")).toBe(true);
@@ -85,7 +85,7 @@ test("Checks fs-api-js", () => {
 
   for (const tree of trees) {
     for (const child of tree.children) {
-      expect(child.children[0].classList.contains("fs-api-entry-name")).toBe(
+      expect(child.children[1].classList.contains("fs-api-entry-name")).toBe(
         true
       );
       expect(child.classList.contains("fs-api-entry")).toBe(true);
@@ -97,13 +97,13 @@ test("Checks fs-api-js", () => {
           tree.parentNode.classList.contains("fs-api-directory-collapse")
         ).toBe(false);
         //We click the folder.
-        tree.previousSibling.click();
+        tree.previousSibling.previousSibling.click();
         //Now we expect that the list collapses
         expect(
           tree.parentNode.classList.contains("fs-api-directory-collapse")
         ).toBe(true);
         //We click the folder.
-        tree.previousSibling.click();
+        tree.previousSibling.previousSibling.click();
         //Now we expect for the folders' contents to be displayed.
         expect(
           tree.parentNode.classList.contains("fs-api-directory-collapse")

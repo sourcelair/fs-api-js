@@ -1,3 +1,18 @@
 li.fs-api-directory-collapse > ul {
   display: none;
 }
+
+ul {
+  list-style-type: none;
+}
+
+.handler {
+  cursor: pointer;
+}
+
+.rotatedHandler {
+  display: inline-block;
+  transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -webkit-transform: rotate(90deg);
+}
