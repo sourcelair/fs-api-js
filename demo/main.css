@@ -6,13 +6,18 @@ ul {
   list-style-type: none;
 }
 
-.handler {
+.fs-api-directory-handler {
   cursor: pointer;
 }
-
-.rotatedHandler {
+.fs-api-directory > .fs-api-directory-handler {
   display: inline-block;
   transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   -webkit-transform: rotate(90deg);
+}
+.fs-api-directory-collapse > .fs-api-directory-handler {
+  display: inline-block;
+  transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  -webkit-transform: rotate(0deg);
 }

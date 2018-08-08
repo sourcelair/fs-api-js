@@ -6,13 +6,12 @@ function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
     const handler = document.createElement("span");
-    handler.classList.add("handler");
+    handler.classList.add("fs-api-directory-handler");
 
     const liElement = document.createElement("li");
     liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
     if (item.type === "directory") {
       handler.textContent = "›";
-      handler.classList.add("handler");
       handler.classList.add("rotatedHandler");
     }
     const nameElement = document.createElement("span");
