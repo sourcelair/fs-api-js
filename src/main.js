@@ -6,6 +6,9 @@ function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
     const liElement = document.createElement("li");
+    liElement.addEventListener("click", function() {
+      selectItem(liElement);
+    });
     liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
     const nameElement = document.createElement("span");
     if (item.children) {
@@ -23,13 +26,6 @@ function convertItemsToUnorderedList(listItems) {
   });
   return ulElement;
 }
-function toggleDirectory(nameElement) {
-  if (nameElement.parentNode.classList.contains("fs-api-directory-collapse")) {
-    nameElement.parentNode.classList.remove("fs-api-directory-collapse");
-  } else {
-    nameElement.parentNode.classList.add("fs-api-directory-collapse");
-  }
-}
 
 /**Takes the clicked element and toggles the directory.
  * @param {HTMLSpanElement} nameElement - The clicked element.
@@ -40,6 +36,12 @@ function toggleDirectory(nameElement) {
   } else {
     nameElement.parentNode.classList.add("fs-api-directory-collapse");
   }
+}
+
+/**Selects the clicked element and unselects any other that might be selected
+ * @param {HTMLLIElement} */
+function selectItem(liElement) {
+  liElement.classList.add("fs-api-selected");
 }
 /**Takes 2 words and compares them case insensitively.
  * @param {object} a - The first file.
@@ -61,7 +63,7 @@ function alphabeticCompare(a, b) {
 
 module.exports.renderInput = function(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
-    fileItems = input.filter(inputEl => inputEl.type === "file");
+        fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
