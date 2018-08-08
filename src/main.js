@@ -8,15 +8,27 @@ function convertItemsToUnorderedList(listItems) {
     const liElement = document.createElement("li");
     liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
     const nameElement = document.createElement("span");
+    if (item.children) {
+      nameElement.addEventListener("click", function() {
+        toggleDirectory(nameElement);
+      });
+    }
     nameElement.textContent = item.name;
     nameElement.classList.add("fs-api-entry-name");
     liElement.appendChild(nameElement);
     if (item.children) {
-      renderInput(item.children, liElement);
+      module.exports.renderInput(item.children, liElement);
     }
     ulElement.appendChild(liElement);
   });
   return ulElement;
+}
+function toggleDirectory(nameElement) {
+  if (nameElement.parentNode.classList.contains("fs-api-directory-collapse")) {
+    nameElement.parentNode.classList.remove("fs-api-directory-collapse");
+  } else {
+    nameElement.parentNode.classList.add("fs-api-directory-collapse");
+  }
 }
 
 /**Takes the clicked element and toggles the directory.
@@ -46,7 +58,8 @@ function alphabeticCompare(a, b) {
  * @param {object} input - The input containing the files in .json form.
  * @param {HTMLElement} container - The container that will contain the list of files.
  * */
-function renderInput(input, container) {
+
+module.exports.renderInput = function(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
     fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
@@ -55,23 +68,15 @@ function renderInput(input, container) {
   ulElement = convertItemsToUnorderedList(listItems);
   ulElement.classList.add("fs-api-tree");
   container.appendChild(ulElement);
-}
+};
 
 /**Takes the url containing the files' data and converts them into json form.
  * @param {string} url - The url from which the data will be extracted.
  * @param {HTMLElement} container - The container that will contain the list of files.
  * */
-function renderUrl(url, container) {
-  fetch(url)
-    .then(resp => resp.json())
-    .then(function(data) {
-      const input = data;
-      renderInput(input, container);
-    })
-    .catch(function(error) {
-      console.log(error);
-    });
-}
 
-module.exports.renderUrl = renderUrl;
-module.exports.renderInput = renderInput;
+module.exports.renderUrl = async function(url, container) {
+  const response = await fetch(url);
+  const payload = await response.json();
+  module.exports.renderInput(payload, container);
+};

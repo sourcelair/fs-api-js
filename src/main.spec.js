@@ -1,6 +1,6 @@
 const fsapi = require("./main");
 
-test("Checks HTMLElements", () => {
+test("Checks fs-api-js", () => {
   const input = [
     {
       name: "test.go",
@@ -90,5 +90,51 @@ test("Checks HTMLElements", () => {
       );
       expect(child.classList.contains("fs-api-entry")).toBe(true);
     }
+    if (tree.children) {
+      if (tree.previousSibling) {
+        //At first we expect from the li not to contain the "collapse" class, since its contents are diplayed.
+        expect(
+          tree.parentNode.classList.contains("fs-api-directory-collapse")
+        ).toBe(false);
+        //We click the folder.
+        tree.previousSibling.click();
+        //Now we expect that the list collapses
+        expect(
+          tree.parentNode.classList.contains("fs-api-directory-collapse")
+        ).toBe(true);
+        //We click the folder.
+        tree.previousSibling.click();
+        //Now we expect for the folders' contents to be displayed.
+        expect(
+          tree.parentNode.classList.contains("fs-api-directory-collapse")
+        ).toBe(false);
+      }
+    }
   }
+});
+
+describe("#renderUrl", () => {
+  it("Should call `fetch` with the appropriate argument and pass payload to `renderInput`", async function() {
+    const payload = [
+      {
+        name: "main.go",
+        absolute_path: "/mnt/project/main.go",
+        type: "file",
+        children: null
+      }
+    ];
+    const url = "/api/fs/";
+    fetch.mockResponseOnce(JSON.stringify(payload));
+
+    const container = document.createElement("div");
+
+    fsapi.renderInput = jest.fn();
+
+    await fsapi.renderUrl(url, container);
+
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(fetch).toHaveBeenCalledWith(url);
+    expect(fsapi.renderInput).toHaveBeenCalledTimes(1);
+    expect(fsapi.renderInput).toHaveBeenCalledWith(payload, container);
+  });
 });
