@@ -6,9 +6,6 @@ function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
     const liElement = document.createElement("li");
-    liElement.addEventListener("click", function() {
-      selectItem(liElement);
-    });
     liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
     const nameElement = document.createElement("span");
     if (item.children) {
@@ -16,6 +13,9 @@ function convertItemsToUnorderedList(listItems) {
         toggleDirectory(nameElement);
       });
     }
+    nameElement.addEventListener("click", function() {
+      selectItem(liElement);
+    });
     nameElement.textContent = item.name;
     nameElement.classList.add("fs-api-entry-name");
     liElement.appendChild(nameElement);
@@ -38,9 +38,22 @@ function toggleDirectory(nameElement) {
   }
 }
 
+
 /**Selects the clicked element and unselects any other that might be selected
- * @param {HTMLLIElement} */
+ * @param {HTMLLIElement} liElement - The item that is going to be selected*/
 function selectItem(liElement) {
+  const entries = document.getElementsByClassName("fs-api-entry");
+  Array.prototype.forEach.call(entries, entry => {
+    if (entry.classList.contains("fs-api-selected")) {
+      entry.classList.remove("fs-api-selected");
+    }
+  });
+  /*
+  entries.forEach(entry => {
+    if (entry.classList.contains("fs-api-selected")) {
+      entry.classList.remove("fs-api-selected");
+    }
+  });*/
   liElement.classList.add("fs-api-selected");
 }
 /**Takes 2 words and compares them case insensitively.
