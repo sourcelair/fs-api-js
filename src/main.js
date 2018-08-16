@@ -5,16 +5,23 @@
 function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
+    const handler = document.createElement("span");
+    handler.classList.add("fs-api-directory-handler");
+
     const liElement = document.createElement("li");
     liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
+    if (item.type === "directory") {
+      handler.textContent = "›";
+    }
     const nameElement = document.createElement("span");
-    if (item.children) {
-      nameElement.addEventListener("click", function() {
+    if (item.type === "directory") {
+      handler.addEventListener("click", function() {
         toggleDirectory(nameElement);
       });
     }
     nameElement.textContent = item.name;
     nameElement.classList.add("fs-api-entry-name");
+    liElement.appendChild(handler);
     liElement.appendChild(nameElement);
     if (item.children) {
       module.exports.renderInput(item.children, liElement);
