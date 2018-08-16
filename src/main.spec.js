@@ -90,34 +90,32 @@ test("Checks fs-api-js", () => {
       );
       expect(child.classList.contains("fs-api-entry")).toBe(true);
     }
-    if (tree.children) {
-      if (tree.previousSibling) {
-        //At first we expect from the li not to contain the "collapse" class, since its contents are diplayed.
-        expect(
-          tree.parentNode.classList.contains("fs-api-directory-collapse")
-        ).toBe(false);
-        //We click the folder.
-        tree.previousSibling.previousSibling.click();
-        //Now we expect that the list collapses
-        expect(
-          tree.parentNode.classList.contains("fs-api-directory-collapse")
-        ).toBe(true);
-        //We click the folder.
-        tree.previousSibling.previousSibling.click();
-        //Now we expect for the folders' contents to be displayed.
-        expect(
-          tree.parentNode.classList.contains("fs-api-directory-collapse")
-        ).toBe(false);
-      }
+    if (tree.previousSibling) {
+      //At first we expect from the li not to contain the "collapse" class, since its contents are diplayed.
+      expect(
+        tree.parentNode.classList.contains("fs-api-directory-collapse")
+      ).toBe(false);
+      //We click the handler.
+      tree.parentNode.firstChild.click();
+      //Now we expect that the list collapses
+      expect(
+        tree.parentNode.classList.contains("fs-api-directory-collapse")
+      ).toBe(true);
+      //We click the handler.
+      tree.parentNode.firstChild.click();
+      //Now we expect for the folders' contents to be displayed.
+      expect(
+        tree.parentNode.classList.contains("fs-api-directory-collapse")
+      ).toBe(false);
     }
   }
 
   const entries = container.querySelectorAll(".fs-api-entry");
-  entries[2].firstChild.click();
+  entries[2].children[1].click();
   let selected = container.querySelectorAll(".fs-api-selected");
   expect(selected.length).toBe(1);
   expect(entries[2].classList.contains("fs-api-selected")).toBe(true);
-  entries[4].firstChild.click();
+  entries[4].children[1].click();
   selected = container.querySelectorAll(".fs-api-selected");
   expect(selected.length).toBe(1);
   expect(entries[4].classList.contains("fs-api-selected")).toBe(true);
