@@ -111,6 +111,16 @@ test("Checks fs-api-js", () => {
       }
     }
   }
+
+  const entries = container.querySelectorAll(".fs-api-entry");
+  entries[2].firstChild.click();
+  let selected = container.querySelectorAll(".fs-api-selected");
+  expect(selected.length).toBe(1);
+  expect(entries[2].classList.contains("fs-api-selected")).toBe(true);
+  entries[4].firstChild.click();
+  selected = container.querySelectorAll(".fs-api-selected");
+  expect(selected.length).toBe(1);
+  expect(entries[4].classList.contains("fs-api-selected")).toBe(true);
 });
 
 describe("#renderUrl", () => {

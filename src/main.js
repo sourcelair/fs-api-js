@@ -13,9 +13,6 @@ function convertItemsToUnorderedList(listItems) {
         toggleDirectory(nameElement);
       });
     }
-    nameElement.addEventListener("click", function() {
-      selectItem(liElement);
-    });
     nameElement.textContent = item.name;
     nameElement.classList.add("fs-api-entry-name");
     liElement.appendChild(nameElement);
@@ -40,20 +37,9 @@ function toggleDirectory(nameElement) {
 
 /**Selects the clicked element and unselects any other that might be selected
  * @param {HTMLLIElement} liElement - The item that is going to be selected*/
-function selectItem(liElement) {
-  const entries = document.getElementsByClassName("fs-api-entry");
-  Array.prototype.forEach.call(entries, entry => {
-    if (entry.classList.contains("fs-api-selected")) {
-      entry.classList.remove("fs-api-selected");
-    }
-  });
-  /*
-  entries.forEach(entry => {
-    if (entry.classList.contains("fs-api-selected")) {
-      entry.classList.remove("fs-api-selected");
-    }
-  });*/
-  liElement.classList.add("fs-api-selected");
+function selectEntry(clickedElement, rootContainer) {
+  rootContainer.querySelectorAll('.fs-api-selected').forEach(entry => entry.classList.remove('fs-api-selected'));
+  clickedElement.classList.add("fs-api-selected");
 }
 /**Takes 2 words and compares them case insensitively.
  * @param {object} a - The first file.
@@ -75,12 +61,15 @@ function alphabeticCompare(a, b) {
 
 module.exports.renderInput = function(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
-    fileItems = input.filter(inputEl => inputEl.type === "file");
+        fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
   ulElement = convertItemsToUnorderedList(listItems);
   ulElement.classList.add("fs-api-tree");
+  container.addEventListener("click", function(e) {
+    selectEntry(e.target.parentNode, container);
+  });
   container.appendChild(ulElement);
 };
 
