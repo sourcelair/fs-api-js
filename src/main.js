@@ -36,7 +36,8 @@ function toggleDirectory(nameElement) {
 }
 
 /**Selects the clicked element and unselects any other that might be selected
- * @param {HTMLLIElement} liElement - The item that is going to be selected*/
+ * @param {HTMLLIElement} clickedElement - The item that is going to be selected
+ * @param {HTMLElement} rootContainer - The container in which the click occured*/
 function selectEntry(clickedElement, rootContainer) {
   rootContainer
     .querySelectorAll(".fs-api-selected")
