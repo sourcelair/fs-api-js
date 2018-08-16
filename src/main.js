@@ -23,13 +23,6 @@ function convertItemsToUnorderedList(listItems) {
   });
   return ulElement;
 }
-function toggleDirectory(nameElement) {
-  if (nameElement.parentNode.classList.contains("fs-api-directory-collapse")) {
-    nameElement.parentNode.classList.remove("fs-api-directory-collapse");
-  } else {
-    nameElement.parentNode.classList.add("fs-api-directory-collapse");
-  }
-}
 
 /**Takes the clicked element and toggles the directory.
  * @param {HTMLSpanElement} nameElement - The clicked element.
@@ -40,6 +33,16 @@ function toggleDirectory(nameElement) {
   } else {
     nameElement.parentNode.classList.add("fs-api-directory-collapse");
   }
+}
+
+/**Selects the clicked element and unselects any other that might be selected
+ * @param {HTMLLIElement} clickedElement - The item that is going to be selected
+ * @param {HTMLElement} rootContainer - The container in which the click occured*/
+function selectEntry(clickedElement, rootContainer) {
+  rootContainer
+    .querySelectorAll(".fs-api-selected")
+    .forEach(entry => entry.classList.remove("fs-api-selected"));
+  clickedElement.classList.add("fs-api-selected");
 }
 /**Takes 2 words and compares them case insensitively.
  * @param {object} a - The first file.
@@ -67,6 +70,9 @@ module.exports.renderInput = function(input, container) {
   const listItems = dirItems.concat(fileItems);
   ulElement = convertItemsToUnorderedList(listItems);
   ulElement.classList.add("fs-api-tree");
+  container.addEventListener("click", function(e) {
+    selectEntry(e.target.parentNode, container);
+  });
   container.appendChild(ulElement);
 };
 
