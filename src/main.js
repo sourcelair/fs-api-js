@@ -12,7 +12,6 @@ function convertItemsToUnorderedList(listItems) {
     liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
     if (item.type === "directory") {
       handler.textContent = "›";
-      handler.classList.add("rotatedHandler");
     }
     const nameElement = document.createElement("span");
     if (item.type === "directory") {
@@ -38,10 +37,8 @@ function convertItemsToUnorderedList(listItems) {
 function toggleDirectory(nameElement) {
   if (nameElement.parentNode.classList.contains("fs-api-directory-collapse")) {
     nameElement.parentNode.classList.remove("fs-api-directory-collapse");
-    nameElement.previousSibling.classList.add("rotatedHandler");
   } else {
     nameElement.parentNode.classList.add("fs-api-directory-collapse");
-    nameElement.previousSibling.classList.remove("rotatedHandler");
   }
 }
 
