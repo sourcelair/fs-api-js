@@ -81,6 +81,7 @@ module.exports.renderInput = function(input, container) {
     selectEntry(e.target.parentNode, container);
   });
   container.appendChild(ulElement);
+  return listItems;
 };
 
 /**Takes the url containing the files' data and converts them into json form.
@@ -92,4 +93,49 @@ module.exports.renderUrl = async function(url, container) {
   const response = await fetch(url);
   const payload = await response.json();
   module.exports.renderInput(payload, container);
+};
+
+module.exports.FileSystem = class {
+  constructor(url, container) {
+    this.url = url;
+    this.container = container;
+
+    module.exports.renderUrl(url, this.container);
+  }
+  getDirectoryContents(path = "") {
+    return new Promise((resolve, reject) => {
+      fetch(this.url.concat(path))
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          resolve(data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+  getFileContents(path = "") {
+    return new Promise((resolve, reject) => {
+      fetch(this.url.concat(path))
+        .then(response => {
+          resolve(response.text());
+        })
+        .catch(error => reject(error));
+    });
+  }
+  async createDirectory(path) {
+    await fetch(this.url.concat("directories").concat(path), {
+      method: "POST"
+    });
+  }
+  async createFile(path) {
+    await fetch(this.url.concat("files").concat(path), {
+      method: "POST"
+    });
+  }
+  updateFileContents(path, contents) {}
+  moveFileOrDirectory(currentPath, newPath) {}
+  deleteFileOrDirectory(path) {}
 };
