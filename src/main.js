@@ -20,7 +20,6 @@ function createNewListItem(type, name, absolute_path){
     });
     liElement.appendChild(handler);
   }
-
   liElement.appendChild(nameElement);
   return liElement;
 }
@@ -109,6 +108,7 @@ module.exports.renderUrl = async function(url, container) {
  * @param {string} url - Container's absolute path.
  */
 function appendNewEntry(type, path, url) {
+  //const URL = url;
   const URL = "/mnt/project/vendor"; //UNTIL SERVER IS UP, THIS IS FOR TESTING
   const container = document.querySelector(`li[data-path="${URL}"]`);
   const liElement = createNewListItem(type, path, url.concat(path));
@@ -144,28 +144,31 @@ module.exports.FileSystem = class {
         .catch(error => reject(error));
     });
   }
-  createDirectory(path) {
+  createDirectory(path = "") {
     return new Promise((resolve, reject) => {
-      /*
       fetch(this.url.concat("directories").concat(path), {
         method: "POST"
-      }).catch(error => {reject(error);});*/
+      }).catch(error => {reject(error);});
       appendNewEntry("directory", path, this.url);
       resolve(path);
     });
   }
   createFile(path) {
     return new Promise((resolve, reject) => {
-      /*
       fetch(this.url.concat("directories").concat(path), {
         method: "POST"
-      }).catch(error => {reject(error);});*/
+      }).catch(error => {reject(error);});
       appendNewEntry("file", path, this.url);
       resolve(path);
     });
   }
   updateFileContents(path, contents) {
-    return new Promise((resolve, reject) => {});
+    return new Promise((resolve, reject) => {
+      fetch(this.url.concat(path), {
+        method: "PUT",
+        body: contents
+      }).catch(error => {reject(error);});
+      resolve(path);});
   }
   moveFileOrDirectory(currentPath, newPath) {
     return new Promise((resolve, reject) => {});
