@@ -5,24 +5,22 @@
 function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
-    const handler = document.createElement("span");
-    handler.classList.add("fs-api-directory-handler");
-
     const liElement = document.createElement("li");
     liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
     liElement.dataset.path = item.absolute_path;
-    if (item.type === "directory") {
-      handler.textContent = "›";
-    }
     const nameElement = document.createElement("span");
+    nameElement.textContent = item.name;
+    nameElement.classList.add("fs-api-entry-name");
     if (item.type === "directory") {
+      const handler = document.createElement("span");
+      handler.classList.add("fs-api-directory-handler");
+      handler.textContent = "›";
       handler.addEventListener("click", function() {
         toggleDirectory(nameElement);
       });
+      liElement.appendChild(handler);
     }
-    nameElement.textContent = item.name;
-    nameElement.classList.add("fs-api-entry-name");
-    liElement.appendChild(handler);
+
     liElement.appendChild(nameElement);
     if (item.children) {
       module.exports.renderInput(item.children, liElement);
@@ -72,7 +70,7 @@ function alphabeticCompare(a, b) {
 
 module.exports.renderInput = function(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
-        fileItems = input.filter(inputEl => inputEl.type === "file");
+    fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
@@ -96,28 +94,26 @@ module.exports.renderUrl = async function(url, container) {
   module.exports.renderInput(payload, container);
 };
 
-function createNewEntry(type, path, url){
+function createNewEntry(type, path, url) {
   const URL = "/mnt/project/vendor"; //UNTIL SERVER IS UP
   const container = document.querySelector(`li[data-path="${URL}"]`);
-  const liElement = document.createElement('li');
-  const nameElement = document.createElement('span');
-  const handler = document.createElement("span");
-  handler.classList.add("fs-api-directory-handler");
+  const liElement = document.createElement("li");
+  liElement.classList.add("fs-api-entry", `fs-api-${type}`);
+  liElement.dataset.path = url.concat(path);
+  const nameElement = document.createElement("span");
+  nameElement.textContent = path;
+  nameElement.classList.add("fs-api-entry-name");
   if (type === "directory") {
+    const handler = document.createElement("span");
+    handler.classList.add("fs-api-directory-handler");
     handler.textContent = "›";
     handler.addEventListener("click", function() {
       toggleDirectory(nameElement);
     });
+    liElement.appendChild(handler);
   }
-  nameElement.textContent = path;
-  nameElement.classList.add("fs-api-entry-name");
-  liElement.appendChild(handler);
   liElement.appendChild(nameElement);
-  liElement.textContent = path;
-  liElement.classList.add("fs-api-entry", `fs-api-${type}`);
-  liElement.dataset.path = url.concat(path);
-  //container.firstChild.nextSibling.nextSibling.appendChild(liElement);
-  container.childNodes[2].appendChild(liElement);
+  container.querySelector(".fs-api-tree").appendChild(liElement);
 }
 module.exports.FileSystem = class {
   constructor(url, container) {
@@ -130,22 +126,22 @@ module.exports.FileSystem = class {
     return new Promise((resolve, reject) => {
       fetch(this.url.concat(path))
         .then(response => {
-        return response.json();
-      })
+          return response.json();
+        })
         .then(data => {
-        resolve(data);
-      })
+          resolve(data);
+        })
         .catch(error => {
-        reject(error);
-      });
+          reject(error);
+        });
     });
   }
   getFileContents(path = "") {
     return new Promise((resolve, reject) => {
       fetch(this.url.concat(path))
         .then(response => {
-        resolve(response.text());
-      })
+          resolve(response.text());
+        })
         .catch(error => reject(error));
     });
   }
@@ -170,9 +166,7 @@ module.exports.FileSystem = class {
     });
   }
   updateFileContents(path, contents) {
-    return new Promise((resolve, reject) => {
-
-    });
+    return new Promise((resolve, reject) => {});
   }
   moveFileOrDirectory(currentPath, newPath) {}
   deleteFileOrDirectory(path) {}

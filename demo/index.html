@@ -11,10 +11,10 @@
       const fileSystemContainer = document.body;
       const myFileSystem = new fsApi.FileSystem("demo.json", fileSystemContainer);
       setTimeout(function() {
-        myFileSystem.createFile("NewFile");
+        myFileSystem.createDirectory("NewDirectory");
       }, 1000);
       setTimeout(function() {
-        myFileSystem.createDirectory("NewDirectory");
+        myFileSystem.createFile("NewFile");
       }, 1000);
       //myFileSystem.createDirectory("docs");
     </script>
