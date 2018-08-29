@@ -1,3 +1,29 @@
+/**Takes an item's properties to create the appropriate LIElement.
+ * @param {string} type - Item's type.
+ * @param {string} name - Item's name.
+ * @param {string} absolute_path - Item's absolute path.
+ * @returns {HTMLLIistElement} - The list item that will be appended into a container.
+ */
+function createNewListItem(type, name, absolute_path){
+  const liElement = document.createElement("li");
+  liElement.classList.add("fs-api-entry", `fs-api-${type}`);
+  liElement.dataset.path = absolute_path;
+  const nameElement = document.createElement("span");
+  nameElement.textContent = name;
+  nameElement.classList.add("fs-api-entry-name");
+  if (type === "directory") {
+    const handler = document.createElement("span");
+    handler.classList.add("fs-api-directory-handler");
+    handler.textContent = "›";
+    handler.addEventListener("click", function() {
+      toggleDirectory(nameElement);
+    });
+    liElement.appendChild(handler);
+  }
+
+  liElement.appendChild(nameElement);
+  return liElement;
+}
 /**Takes a list of items and converts them into an unordered list.
  * @param {array} listItems - The list of the items.
  * @returns {HTMLUListElement} the list that will be appended into a container
@@ -5,23 +31,7 @@
 function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
-    const liElement = document.createElement("li");
-    liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
-    liElement.dataset.path = item.absolute_path;
-    const nameElement = document.createElement("span");
-    nameElement.textContent = item.name;
-    nameElement.classList.add("fs-api-entry-name");
-    if (item.type === "directory") {
-      const handler = document.createElement("span");
-      handler.classList.add("fs-api-directory-handler");
-      handler.textContent = "›";
-      handler.addEventListener("click", function() {
-        toggleDirectory(nameElement);
-      });
-      liElement.appendChild(handler);
-    }
-
-    liElement.appendChild(nameElement);
+    const liElement = createNewListItem(item.type, item.name, item.absolute_path);
     if (item.children) {
       module.exports.renderInput(item.children, liElement);
     }
@@ -70,7 +80,7 @@ function alphabeticCompare(a, b) {
 
 module.exports.renderInput = function(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
-    fileItems = input.filter(inputEl => inputEl.type === "file");
+        fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
@@ -93,26 +103,15 @@ module.exports.renderUrl = async function(url, container) {
   const payload = await response.json();
   module.exports.renderInput(payload, container);
 };
-
-function createNewEntry(type, path, url) {
-  const URL = "/mnt/project/vendor"; //UNTIL SERVER IS UP
+/**Takes an item's properties to append a new list item in the correct container.
+ * @param {string} type - Item's type.
+ * @param {string} name - Item's name.
+ * @param {string} url - Container's absolute path.
+ */
+function appendNewEntry(type, path, url) {
+  const URL = "/mnt/project/vendor"; //UNTIL SERVER IS UP, THIS IS FOR TESTING
   const container = document.querySelector(`li[data-path="${URL}"]`);
-  const liElement = document.createElement("li");
-  liElement.classList.add("fs-api-entry", `fs-api-${type}`);
-  liElement.dataset.path = url.concat(path);
-  const nameElement = document.createElement("span");
-  nameElement.textContent = path;
-  nameElement.classList.add("fs-api-entry-name");
-  if (type === "directory") {
-    const handler = document.createElement("span");
-    handler.classList.add("fs-api-directory-handler");
-    handler.textContent = "›";
-    handler.addEventListener("click", function() {
-      toggleDirectory(nameElement);
-    });
-    liElement.appendChild(handler);
-  }
-  liElement.appendChild(nameElement);
+  const liElement = createNewListItem(type, path, url.concat(path));
   container.querySelector(".fs-api-tree").appendChild(liElement);
 }
 module.exports.FileSystem = class {
@@ -126,22 +125,22 @@ module.exports.FileSystem = class {
     return new Promise((resolve, reject) => {
       fetch(this.url.concat(path))
         .then(response => {
-          return response.json();
-        })
+        return response.json();
+      })
         .then(data => {
-          resolve(data);
-        })
+        resolve(data);
+      })
         .catch(error => {
-          reject(error);
-        });
+        reject(error);
+      });
     });
   }
   getFileContents(path = "") {
     return new Promise((resolve, reject) => {
       fetch(this.url.concat(path))
         .then(response => {
-          resolve(response.text());
-        })
+        resolve(response.text());
+      })
         .catch(error => reject(error));
     });
   }
@@ -151,7 +150,7 @@ module.exports.FileSystem = class {
       fetch(this.url.concat("directories").concat(path), {
         method: "POST"
       }).catch(error => {reject(error);});*/
-      createNewEntry("directory", path, this.url);
+      appendNewEntry("directory", path, this.url);
       resolve(path);
     });
   }
@@ -161,13 +160,17 @@ module.exports.FileSystem = class {
       fetch(this.url.concat("directories").concat(path), {
         method: "POST"
       }).catch(error => {reject(error);});*/
-      createNewEntry("file", path, this.url);
+      appendNewEntry("file", path, this.url);
       resolve(path);
     });
   }
   updateFileContents(path, contents) {
     return new Promise((resolve, reject) => {});
   }
-  moveFileOrDirectory(currentPath, newPath) {}
-  deleteFileOrDirectory(path) {}
+  moveFileOrDirectory(currentPath, newPath) {
+    return new Promise((resolve, reject) => {});
+  }
+  deleteFileOrDirectory(path) {
+    return new Promise((resolve, reject) => {});
+  }
 };
