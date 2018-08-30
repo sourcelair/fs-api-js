@@ -4,7 +4,7 @@
  * @param {string} absolute_path - Item's absolute path.
  * @returns {HTMLLIistElement} - The list item that will be appended into a container.
  */
-function createNewListItem(type, name, absolute_path){
+function createNewListItem(type, name, absolute_path) {
   const liElement = document.createElement("li");
   liElement.classList.add("fs-api-entry", `fs-api-${type}`);
   liElement.dataset.path = absolute_path;
@@ -30,7 +30,11 @@ function createNewListItem(type, name, absolute_path){
 function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
-    const liElement = createNewListItem(item.type, item.name, item.absolute_path);
+    const liElement = createNewListItem(
+      item.type,
+      item.name,
+      item.absolute_path
+    );
     if (item.children) {
       module.exports.renderInput(item.children, liElement);
     }
@@ -79,7 +83,7 @@ function alphabeticCompare(a, b) {
 
 module.exports.renderInput = function(input, container) {
   const dirItems = input.filter(inputEl => inputEl.type === "directory"),
-        fileItems = input.filter(inputEl => inputEl.type === "file");
+    fileItems = input.filter(inputEl => inputEl.type === "file");
   dirItems.sort(alphabeticCompare);
   fileItems.sort(alphabeticCompare);
   const listItems = dirItems.concat(fileItems);
@@ -125,22 +129,22 @@ module.exports.FileSystem = class {
     return new Promise((resolve, reject) => {
       fetch(this.url.concat(path))
         .then(response => {
-        return response.json();
-      })
+          return response.json();
+        })
         .then(data => {
-        resolve(data);
-      })
+          resolve(data);
+        })
         .catch(error => {
-        reject(error);
-      });
+          reject(error);
+        });
     });
   }
   getFileContents(path = "") {
     return new Promise((resolve, reject) => {
       fetch(this.url.concat(path))
         .then(response => {
-        resolve(response.text());
-      })
+          resolve(response.text());
+        })
         .catch(error => reject(error));
     });
   }
@@ -148,7 +152,9 @@ module.exports.FileSystem = class {
     return new Promise((resolve, reject) => {
       fetch(this.url.concat("directories").concat(path), {
         method: "POST"
-      }).catch(error => {reject(error);});
+      }).catch(error => {
+        reject(error);
+      });
       appendNewEntry("directory", path, this.url);
       resolve(path);
     });
@@ -157,7 +163,9 @@ module.exports.FileSystem = class {
     return new Promise((resolve, reject) => {
       fetch(this.url.concat("directories").concat(path), {
         method: "POST"
-      }).catch(error => {reject(error);});
+      }).catch(error => {
+        reject(error);
+      });
       appendNewEntry("file", path, this.url);
       resolve(path);
     });
@@ -167,8 +175,11 @@ module.exports.FileSystem = class {
       fetch(this.url.concat(path), {
         method: "PUT",
         body: contents
-      }).catch(error => {reject(error);});
-      resolve(path);});
+      }).catch(error => {
+        reject(error);
+      });
+      resolve(path);
+    });
   }
   moveFileOrDirectory(currentPath, newPath) {
     return new Promise((resolve, reject) => {});
