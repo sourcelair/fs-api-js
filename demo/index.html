@@ -3,12 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <title>Document</title>
-    <script src="../dist/fsapi.js"></script>
+    <script src="fsapi.js"></script>
     <link rel="stylesheet" href="main.css">
   </head>
   <body>
     <script>
-      fsApi.renderUrl('demo.json', document.body);
+      const fileSystemContainer = document.body;
+      const myFileSystem = new fsApi.FileSystem("demo.json", fileSystemContainer);
+      setTimeout(function() {
+        myFileSystem.createDirectory("NewDirectory");
+      }, 1000);
+      setTimeout(function() {
+        myFileSystem.createFile("NewFile");
+      }, 2000);
     </script>
   </body>
 </html>

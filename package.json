@@ -19,7 +19,7 @@
     "test": "jest",
     "format": "prettier {src,demo}/*.{js,css} --write",
     "watch": "watchify src/main.js --verbose --standalone fsApi -o dist/fsapi.js",
-    "start": "browser-sync start --server --watch --files 'dist/*' 'index.html'  --port $PORT",
+    "start": "browser-sync start --server demo --server dist --watch --files '{demo,dist}/*' --port $PORT",
     "lint": "prettier-check {src,demo}/*.{js,css}"
   },
   "jest": {

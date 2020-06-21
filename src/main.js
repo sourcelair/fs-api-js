@@ -1,3 +1,28 @@
+/**Takes an item's properties to create the appropriate LIElement.
+ * @param {string} type - Item's type.
+ * @param {string} name - Item's name.
+ * @param {string} absolute_path - Item's absolute path.
+ * @returns {HTMLLIistElement} - The list item that will be appended into a container.
+ */
+function createNewListItem(type, name, absolute_path) {
+  const liElement = document.createElement("li");
+  liElement.classList.add("fs-api-entry", `fs-api-${type}`);
+  liElement.dataset.path = absolute_path;
+  const nameElement = document.createElement("span");
+  nameElement.textContent = name;
+  nameElement.classList.add("fs-api-entry-name");
+  if (type === "directory") {
+    const handler = document.createElement("span");
+    handler.classList.add("fs-api-directory-handler");
+    handler.textContent = "›";
+    handler.addEventListener("click", function() {
+      toggleDirectory(nameElement);
+    });
+    liElement.appendChild(handler);
+  }
+  liElement.appendChild(nameElement);
+  return liElement;
+}
 /**Takes a list of items and converts them into an unordered list.
  * @param {array} listItems - The list of the items.
  * @returns {HTMLUListElement} the list that will be appended into a container
@@ -5,24 +30,11 @@
 function convertItemsToUnorderedList(listItems) {
   const ulElement = document.createElement("ul");
   listItems.forEach(item => {
-    const handler = document.createElement("span");
-    handler.classList.add("fs-api-directory-handler");
-
-    const liElement = document.createElement("li");
-    liElement.classList.add("fs-api-entry", `fs-api-${item.type}`);
-    if (item.type === "directory") {
-      handler.textContent = "›";
-    }
-    const nameElement = document.createElement("span");
-    if (item.type === "directory") {
-      handler.addEventListener("click", function() {
-        toggleDirectory(nameElement);
-      });
-    }
-    nameElement.textContent = item.name;
-    nameElement.classList.add("fs-api-entry-name");
-    liElement.appendChild(handler);
-    liElement.appendChild(nameElement);
+    const liElement = createNewListItem(
+      item.type,
+      item.name,
+      item.absolute_path
+    );
     if (item.children) {
       module.exports.renderInput(item.children, liElement);
     }
@@ -81,6 +93,7 @@ module.exports.renderInput = function(input, container) {
     selectEntry(e.target.parentNode, container);
   });
   container.appendChild(ulElement);
+  return listItems;
 };
 
 /**Takes the url containing the files' data and converts them into json form.
@@ -92,4 +105,86 @@ module.exports.renderUrl = async function(url, container) {
   const response = await fetch(url);
   const payload = await response.json();
   module.exports.renderInput(payload, container);
+};
+/**Takes an item's properties to append a new list item in the correct container.
+ * @param {string} type - Item's type.
+ * @param {string} name - Item's name.
+ * @param {string} url - Container's absolute path.
+ */
+function appendNewEntry(type, path, url) {
+  //const URL = url;
+  const URL = "/mnt/project/vendor"; //UNTIL SERVER IS UP, THIS IS FOR TESTING
+  const container = document.querySelector(`li[data-path="${URL}"]`);
+  const liElement = createNewListItem(type, path, url.concat(path));
+  container.querySelector(".fs-api-tree").appendChild(liElement);
+}
+module.exports.FileSystem = class {
+  constructor(url, container) {
+    this.url = url;
+    this.container = container;
+
+    module.exports.renderUrl(url, this.container);
+  }
+  getDirectoryContents(path = "") {
+    return new Promise((resolve, reject) => {
+      fetch(this.url.concat(path))
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          resolve(data);
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  }
+  getFileContents(path = "") {
+    return new Promise((resolve, reject) => {
+      fetch(this.url.concat(path))
+        .then(response => {
+          resolve(response.text());
+        })
+        .catch(error => reject(error));
+    });
+  }
+  createDirectory(path = "") {
+    return new Promise((resolve, reject) => {
+      fetch(this.url.concat("directories").concat(path), {
+        method: "POST"
+      }).catch(error => {
+        reject(error);
+      });
+      appendNewEntry("directory", path, this.url);
+      resolve(path);
+    });
+  }
+  createFile(path) {
+    return new Promise((resolve, reject) => {
+      fetch(this.url.concat("directories").concat(path), {
+        method: "POST"
+      }).catch(error => {
+        reject(error);
+      });
+      appendNewEntry("file", path, this.url);
+      resolve(path);
+    });
+  }
+  updateFileContents(path, contents) {
+    return new Promise((resolve, reject) => {
+      fetch(this.url.concat(path), {
+        method: "PUT",
+        body: contents
+      }).catch(error => {
+        reject(error);
+      });
+      resolve(path);
+    });
+  }
+  moveFileOrDirectory(currentPath, newPath) {
+    return new Promise((resolve, reject) => {});
+  }
+  deleteFileOrDirectory(path) {
+    return new Promise((resolve, reject) => {});
+  }
 };
